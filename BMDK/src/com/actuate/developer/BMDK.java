@@ -17,7 +17,7 @@ public class BMDK {
 	private String	  host;
 	private String	  volume;
 	private SecretKey key;
-	private String    viewReport;
+	private String    reportListing = "<html><head><meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" /><title>Report Explorer Page</title></head><body onload=\"init( )\"><div id=\"explorerpane\"><script type=\"text/javascript\" language=\"JavaScript\" src=\"host/iportal/jsapi\"></script><script type=\"text/javascript\" language=\"JavaScript\">function init( ) {  actuate.load(\"reportexplorer\");  requestOpts = new actuate.RequestOptions( );  requestOpts.setVolumeProfile(\"volume\");  actuate.initialize( \"host/iportal/\", requestOpts, \"username\", \"password\", runReportExplorer);}function runReportExplorer( ) {  var explorer = new actuate.ReportExplorer(\"explorerpane\");  explorer.setFolderName( \"/Home/devSite\" );  var resultDef = \"Name|FileType|Version|VersionName|Description\";  explorer.setResultDef( resultDef.split(\"|\") );  explorer.submit( );}</script></div></body></html>";
 	private Cipher    ecipher;
 	private Cipher    dcipher;
 		
@@ -70,6 +70,15 @@ public class BMDK {
 		}
 		
 		// TODO: Add more output types
+	}
+	
+	public String reportListing() {
+		String temp = this.reportListing.replaceAll("username", this.decrypt(this.username));
+		temp		= temp.replaceAll("password", this.decrypt(this.password));
+		temp		= temp.replaceAll("host", this.decrypt(this.host));
+		temp		= temp.replaceAll("volume", this.decrypt(this.volume));
+		
+		return temp;
 	}
 	
 	// Takes a string, encrpyts it, then returns the encrypted
