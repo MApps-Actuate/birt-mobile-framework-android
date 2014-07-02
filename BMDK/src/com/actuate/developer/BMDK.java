@@ -1,5 +1,7 @@
 package com.actuate.developer;
 
+import java.security.MessageDigest;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -12,14 +14,18 @@ public class BMDK {
 	public enum Output {WebViewer, HTML, PDF, XLS, XLSX};  // TODO: Add more output types
 	
 	// Private variables
-	private String	  username;
-	private String	  password;
-	private String	  host;
-	private String	  volume;
-	private SecretKey key;
-	private String    reportListing = "<html><head><meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" /><title>Report Explorer Page</title></head><body onload=\"init( )\"><div id=\"explorerpane\"><script type=\"text/javascript\" language=\"JavaScript\" src=\"host/iportal/jsapi\"></script><script type=\"text/javascript\" language=\"JavaScript\">function init( ) {  actuate.load(\"reportexplorer\");  requestOpts = new actuate.RequestOptions( );  requestOpts.setVolumeProfile(\"volume\");  actuate.initialize( \"host/iportal/\", requestOpts, \"username\", \"password\", runReportExplorer);}function runReportExplorer( ) {  var explorer = new actuate.ReportExplorer(\"explorerpane\");  explorer.setFolderName( \"/Home/devSite\" );  var resultDef = \"Name|FileType|Version|VersionName|Description\";  explorer.setResultDef( resultDef.split(\"|\") );  explorer.submit( );}</script></div></body></html>";
-	private Cipher    ecipher;
-	private Cipher    dcipher;
+	private String	       username;
+	private String	       password;
+	private String	       host;
+	private String	       volume;
+	private SecretKey      key;
+	private Cipher         ecipher;
+	private Cipher         dcipher;
+	private MessageDigest  MD5;
+	private final String   reportListing        = "<html><head><meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" /><title>Report Explorer Page</title></head><body onload=\"init( )\"><div id=\"explorerpane\"><script type=\"text/javascript\" language=\"JavaScript\" src=\"host/iportal/jsapi\"></script><script type=\"text/javascript\" language=\"JavaScript\">function init( ) {  actuate.load(\"reportexplorer\");  requestOpts = new actuate.RequestOptions( );  requestOpts.setVolumeProfile(\"volume\");  actuate.initialize( \"host/iportal/\", requestOpts, \"username\", \"password\", runReportExplorer);}function runReportExplorer( ) {  var explorer = new actuate.ReportExplorer(\"explorerpane\");  explorer.setFolderName( \"/Home/devSite\" );  var resultDef = \"Name|FileType|Version|VersionName|Description\";  explorer.setResultDef( resultDef.split(\"|\") );  explorer.submit( );}</script></div></body></html>";
+	private final String   reportListingMD5     = createHash(reportListing);
+	private final String   viewReport           = "<script type='text/javascript' language='JavaScript' src='host/iportal/jsapi'></script><script type='text/javascript'>actuate.load('viewer');var reqOps = new actuate.RequestOptions();reqOps.setVolume('volume');reqOps.setCustomParameters({});actuate.initialize('http://demo.actuate.com/iportal/', reqOps == undefined ? null : reqOps, 'username', 'password', myInit);function myInit() {viewer1 = new actuate.Viewer('container1');viewer1.setReportDesign('report');var options = new actuate.viewer.UIOptions();viewer1.setUIOptions(options);viewer1.submit();}</script><div id='container1' style='border-width: 0px; border-style: solid;'></div>";
+	private final String   viewReportMD5        = createHash(viewReport);
 		
 	// BMDK constructor.  This will create encryption/decryption
 	// keys that persist durring the life of this Class
@@ -41,12 +47,51 @@ public class BMDK {
 		}
 	}
 	
-	public void exportReport(String reportName, Output outputType) {
+	private String createHash(String toHash) {
+		try {
+			// Create the MessageDigest
+			MD5 = MessageDigest.getInstance("MD5");
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		// This will hold the final hash
+		String hash = new String();
+		
+		// Update MD5 with the string we're going to hash
+		MD5.update(toHash.getBytes());
+		
+		byte byteData[] = MD5.digest();
+		
+		StringBuffer sb = new StringBuffer();
+		
+        for (int i = 0; i < byteData.length; i++) {
+        	sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+        }
+        
+        // Assign the hash
+        hash = sb.toString();
+		
+		return hash;
+	}
+	
+	public String exportReport(String reportName, Output outputType) {
+		String temp   = new String();
+		
 		if(outputType.equals(Output.WebViewer)) {
-			// TODO: Regex out placeholders from viewReport
-			// and replace with reportName, outputType, username,
-			// password, host, volume and return the HTML as
-			// a byte array.
+			if(viewReportMD5.equals(createHash(viewReport))) {
+				System.out.println("Matches!");
+				temp = viewReport;
+				temp = temp.replaceAll("host", getHost());
+				temp = temp.replaceAll("volume", getVolume());
+				temp = temp.replaceAll("username", getUsername());
+				temp = temp.replaceAll("password", decrypt(password));
+				temp = temp.replaceAll("report", reportName);
+				
+				System.out.println(temp);
+			}else{
+				System.out.println("No match!");
+			}
 		}else if(outputType.equals(Output.HTML)) {
 			// TODO: Regex out placeholders from viewReport
 			// and replace with reportName, outputType, username,
@@ -70,13 +115,22 @@ public class BMDK {
 		}
 		
 		// TODO: Add more output types
+		
+		return temp;
 	}
 	
 	public String reportListing() {
-		String temp = this.reportListing.replaceAll("username", this.decrypt(this.username));
-		temp		= temp.replaceAll("password", this.decrypt(this.password));
-		temp		= temp.replaceAll("host", this.decrypt(this.host));
-		temp		= temp.replaceAll("volume", this.decrypt(this.volume));
+		String temp = new String();
+		
+		// Make sure the JSAPI hasn't been changed
+		if(reportListingMD5.equals(createHash(reportListing))) {
+			temp = this.reportListing.replaceAll("username", this.decrypt(this.username));
+			temp = temp.replaceAll("password", this.decrypt(this.password));
+			temp = temp.replaceAll("host", this.decrypt(this.host));
+			temp = temp.replaceAll("volume", this.decrypt(this.volume));
+		}else{
+			temp = "MD5 error!";
+		}
 		
 		return temp;
 	}

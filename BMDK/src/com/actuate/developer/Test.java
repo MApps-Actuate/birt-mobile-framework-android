@@ -1,5 +1,7 @@
 package com.actuate.developer;
 
+import com.actuate.developer.BMDK.Output;
+
 public class Test {
 	public static void main(String[] args) {
 		BMDK test = new BMDK();
@@ -8,8 +10,7 @@ public class Test {
 		test.setPassword("password");
 		test.setVolume("Default Volume");
 		
-		String html = test.reportListing();
-		
+		String html = test.exportReport("/Home/devSite/test.rptdesign", Output.WebViewer);
 		System.out.println(html);
 	}
 }
