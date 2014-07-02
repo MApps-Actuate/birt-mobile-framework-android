@@ -1,21 +1,29 @@
+/* BMDK is a Mobile Development Kit that gives developers an easy way
+ * to write BIRT application with Mobile platforms in mind.  It makes
+ * heavy use of Actuate's JSAPI.
+ * 
+ * @author Actuate Corporation
+ * @version 0.1 Build 1 July 2, 2014
+ * 
+ */
+
 package com.actuate.developer;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.security.MessageDigest;
-
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-
 import com.sun.mail.util.BASE64DecoderStream;
 import com.sun.mail.util.BASE64EncoderStream;
 
 public class BMDK {
-	// Public variables
+	/**
+	 *  @param OutputType An enum that's used to tell BMDK what output type to use.
+	 */
 	public enum OutputType {WebViewer, HTML, PDF, XLS, XLSX,
 							ODP, ODS, ODT, PS, PPT, PPTX, DOC, DOCX}; // TODO: Add spudsoft?
 	
@@ -35,9 +43,11 @@ public class BMDK {
 	private final String   viewReportType       = "host/iportal/executereport.do?__locale=en_US&__vp=volumename&volume=volumename&closex=true&__executableName=reportname&__requesttype=immediate&__format=formattype";
 	private final String   viewReportTypeMD5    = createHash(viewReportType);
 		
-	// BMDK constructor.  This will create encryption/decryption
-	// keys that persist durring the life of this Class
-	// through the live of the Class.
+	/**
+	 * BMDK constructor.  This will create encryption/decryption
+	 * keys that persist durring the life of this Class
+	 * through the live of the Class.
+	 */
 	public BMDK() {
 		try {
 			// Create DES key
@@ -55,6 +65,12 @@ public class BMDK {
 		}
 	}
 	
+	/**
+	 * Creates a hash for security.  This allows us to make sure
+	 * that none of the private variables have been tampered with
+	 * @param toHash The string that will be hashed
+	 * @return The final hash of what has been passed in
+	 */
 	private String createHash(String toHash) {
 		try {
 			// Create the MessageDigest
@@ -83,6 +99,13 @@ public class BMDK {
 		return hash;
 	}
 	
+	/**
+	 * Generates a report using Actuate's JSAPI and returns it in the format
+	 * given via OutputType
+	 * @param reportName Name of the report to be exported.  This must be the full path.  IE /Home/devSite/test.rptdesign
+	 * @param outputType The format the report needs to be rendered in.  IE xls, pdf, doc, etc.
+	 * @return Return's the report as a string for the developer to decide how to handle the contents
+	 */
 	public String exportReport(String reportName, OutputType outputType) {
 		// TODO: Implement login once it's been created.
 		// Login() will execute JSAPI to login to the users
@@ -245,6 +268,11 @@ public class BMDK {
 		return temp;
 	}
 	
+	/**
+	 * This will login to the iHub and save the authenticated session in methods
+	 * such as exportReport()
+	 * @return Authenticated session
+	 */
 	private Object login() {
 		// TODO: Use the JSAPI to login and store the
 		// authenticated session to add security to
@@ -254,6 +282,11 @@ public class BMDK {
 		return session;
 	}
 	
+	/**
+	 * Grabs the report in whatever format has been specified
+	 * @param url URL that forces the iHub to generate the report
+	 * @return The report in it's specified format
+	 */
 	private String getContent(String url) {
 		String content = new String();
 		
@@ -319,6 +352,10 @@ public class BMDK {
 		return content;
 	}
 	
+	/**
+	 * 
+	 * @return Report listing in the specified volume as HTML string
+	 */
 	public String reportListing() {
 		String temp = new String();
 		
@@ -335,8 +372,11 @@ public class BMDK {
 		return temp;
 	}
 	
-	// Takes a string, encrpyts it, then returns the encrypted
-	// version.
+	/**
+	 * Takes a string, encrpyts it, then returns the encrypted string
+	 * @param password Text to be encrypted
+	 * @return Encrypted text
+	 */
  	private String encrypt(String password) {
 		String encPass = new String();
 		
@@ -355,7 +395,11 @@ public class BMDK {
 		return encPass;
 	}
 	
-	// Take an encrypted string and returns it decrypted
+	/**
+	 * Decrypts the string that has been passed to it
+	 * @param password String to decrypt
+	 * @return Decrypted string
+	 */
 	private String decrypt(String password) {
 		String decrypted = new String();
 		
@@ -373,43 +417,54 @@ public class BMDK {
 		return decrypted;
 	}
 	
-	// Setter for the username
-	// Set's the username
+	/**
+	 * Sets the username
+	 * @param username Username
+	 */
 	public void setUsername(String username) {
 		String temp = this.encrypt(username);
 		this.username = temp;
 	}
 	
-	// Setter for the password
-	// Set's the password
+	/**
+	 * Sets the password
+	 * @param password Password
+	 */
 	public void setPassword(String password) {		
 		String temp = this.encrypt(password);
 		this.password = temp;
 	}
 	
-	// Setter for the host
-	// Set's the host for the iHub
+	/**
+	 * Sets the host
+	 * @param host Hostname
+	 */
 	public void setHost(String host) {
 		String temp = this.encrypt(host);
 		this.host = temp;
 	}
 	
-	// Setter or the volume
-	// Set's the volume name
+	/**
+	 * Sets the volume
+	 * @param volume Volume Name
+	 */
 	public void setVolume(String volume) {
 		String temp = this.encrypt(volume);
 		this.volume = temp;
 	}
 	
-	// Getter for the username
-	// Get's the set username
+	/**
+	 * Gets the username
+	 * @return Username
+	 */
 	public String getUsername() {
 		return this.decrypt(this.username);
 	}
 	
-	// Checks if the password is set and returns
-	// true if yes, false if no.
-	// Checks if the password has been set
+	/**
+	 * Check's to see if the password is set
+	 * @return true/false
+	 */
 	public boolean getPassword() {
 		if(this.password == null) {
 			return false;
@@ -418,14 +473,18 @@ public class BMDK {
 		return true;
 	}
 	
-	// Getter for the host
-	// Get's the host name that has been set
+	/**
+	 * Gets the hostname
+	 * @return Hostname
+	 */
 	public String getHost() {
 		return this.decrypt(this.host);
 	}
 	
-	// Getter for the volume
-	// Get's the volume that has been set
+	/**
+	 * Gets the volume name
+	 * @return Volume Name
+	 */
 	public String getVolume() {
 		return this.decrypt(this.volume);
 	}
