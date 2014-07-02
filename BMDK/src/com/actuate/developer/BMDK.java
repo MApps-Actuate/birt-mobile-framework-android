@@ -84,6 +84,12 @@ public class BMDK {
 	}
 	
 	public String exportReport(String reportName, OutputType outputType) {
+		// TODO: Implement login once it's been created.
+		// Login() will execute JSAPI to login to the users
+		// iHub, then store the authenticated session
+		// if the login has timed out then automatically
+		// log back in.
+		
 		String temp   = new String();
 		
 		if(outputType.equals(OutputType.WebViewer)) {
@@ -233,9 +239,19 @@ public class BMDK {
 			temp   = getContent(newURL);
 		}
 		
-		// TODO: Add more output types
+		// TODO: Add spudsoft emitter, decide what to call it
+		// in the enum
 		
 		return temp;
+	}
+	
+	private Object login() {
+		// TODO: Use the JSAPI to login and store the
+		// authenticated session to add security to
+		// exportReport()
+		Object session = null;
+		
+		return session;
 	}
 	
 	private String getContent(String url) {
