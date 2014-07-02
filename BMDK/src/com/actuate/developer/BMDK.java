@@ -1,5 +1,10 @@
 package com.actuate.developer;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.security.MessageDigest;
 
 import javax.crypto.Cipher;
@@ -11,7 +16,8 @@ import com.sun.mail.util.BASE64EncoderStream;
 
 public class BMDK {
 	// Public variables
-	public enum Output {WebViewer, HTML, PDF, XLS, XLSX};  // TODO: Add more output types
+	public enum OutputType {WebViewer, HTML, PDF, XLS, XLSX,
+							ODP, ODS, ODT, PS, PPT, PPTX, DOC, DOCX}; // TODO: Add spudsoft?
 	
 	// Private variables
 	private String	       username;
@@ -26,6 +32,8 @@ public class BMDK {
 	private final String   reportListingMD5     = createHash(reportListing);
 	private final String   viewReport           = "<script type='text/javascript' language='JavaScript' src='host/iportal/jsapi'></script><script type='text/javascript'>actuate.load('viewer');var reqOps = new actuate.RequestOptions();reqOps.setVolume('volume');reqOps.setCustomParameters({});actuate.initialize('http://demo.actuate.com/iportal/', reqOps == undefined ? null : reqOps, 'username', 'password', myInit);function myInit() {viewer1 = new actuate.Viewer('container1');viewer1.setReportDesign('report');var options = new actuate.viewer.UIOptions();viewer1.setUIOptions(options);viewer1.submit();}</script><div id='container1' style='border-width: 0px; border-style: solid;'></div>";
 	private final String   viewReportMD5        = createHash(viewReport);
+	private final String   viewReportType       = "host/iportal/executereport.do?__locale=en_US&__vp=volumename&volume=volumename&closex=true&__executableName=reportname&__requesttype=immediate&__format=formattype";
+	private final String   viewReportTypeMD5    = createHash(viewReportType);
 		
 	// BMDK constructor.  This will create encryption/decryption
 	// keys that persist durring the life of this Class
@@ -75,10 +83,10 @@ public class BMDK {
 		return hash;
 	}
 	
-	public String exportReport(String reportName, Output outputType) {
+	public String exportReport(String reportName, OutputType outputType) {
 		String temp   = new String();
 		
-		if(outputType.equals(Output.WebViewer)) {
+		if(outputType.equals(OutputType.WebViewer)) {
 			if(viewReportMD5.equals(createHash(viewReport))) {
 				System.out.println("Matches!");
 				temp = viewReport;
@@ -90,33 +98,209 @@ public class BMDK {
 				
 				System.out.println(temp);
 			}else{
-				System.out.println("No match!");
+				temp = "MD5 Error!";
+				System.out.println("MD5 Error!");
 			}
-		}else if(outputType.equals(Output.HTML)) {
-			// TODO: Regex out placeholders from viewReport
-			// and replace with reportName, outputType, username,
-			// password, host, volume and return the HTML as
-			// a byte array.
-		}else if(outputType.equals(Output.PDF)) {
-			// TODO: Regex out placeholders from viewReport
-			// and replace with reportName, outputType, username,
-			// password, host, volume and return the PDF as
-			// a byte array.
-		}else if(outputType.equals(Output.XLS)) {
-			// TODO: Regex out placeholders from viewReport
-			// and replace with reportName, outputType, username,
-			// password, host, volume and return the XLS as
-			// a byte array.
-		}else if(outputType.equals(Output.XLSX)) {
-			// TODO: Regex out placeholders from viewReport
-			// and replace with reportName, outputType, username,
-			// password, host, volume and return the XLSX as
-			// a byte array.
+		}else if(outputType.equals(OutputType.HTML)) {
+			if(viewReportTypeMD5.equals(createHash(viewReportType))) {
+				String newURL = new String();
+
+				newURL = viewReportType;
+				newURL = newURL.replaceAll("host", getHost());
+				newURL = newURL.replaceAll("volumename", getVolume());
+				newURL = newURL.replaceAll("reportname", reportName);
+				newURL = newURL.replaceAll("formattype", "html");
+				newURL = newURL.replaceAll(" ", "%20");
+				temp   = getContent(newURL);
+			}else{
+				temp = "MD5 Error!";
+				System.out.println("MD5 Error!");
+			}
+		}else if(outputType.equals(OutputType.PDF)) {
+			if(viewReportTypeMD5.equals(createHash(viewReportType))) {
+				String newURL = new String();
+
+				newURL = viewReportType;
+				newURL = newURL.replaceAll("host", getHost());
+				newURL = newURL.replaceAll("volumename", getVolume());
+				newURL = newURL.replaceAll("reportname", reportName);
+				newURL = newURL.replaceAll("formattype", "pdf");
+				newURL = newURL.replaceAll(" ", "%20");
+				temp   = getContent(newURL);
+			}else{
+				temp = "MD5 Error!";
+				System.out.println("MD5 Error!");
+			}
+		}else if(outputType.equals(OutputType.XLS)) {
+			String newURL = new String();
+
+			newURL = viewReportType;
+			newURL = newURL.replaceAll("host", getHost());
+			newURL = newURL.replaceAll("volumename", getVolume());
+			newURL = newURL.replaceAll("reportname", reportName);
+			newURL = newURL.replaceAll("formattype", "xls");
+			newURL = newURL.replaceAll(" ", "%20");
+			temp   = getContent(newURL);
+		}else if(outputType.equals(OutputType.XLSX)) {
+			String newURL = new String();
+
+			newURL = viewReportType;
+			newURL = newURL.replaceAll("host", getHost());
+			newURL = newURL.replaceAll("volumename", getVolume());
+			newURL = newURL.replaceAll("reportname", reportName);
+			newURL = newURL.replaceAll("formattype", "xlsx");
+			newURL = newURL.replaceAll(" ", "%20");
+			temp   = getContent(newURL);
+		}else if(outputType.equals(OutputType.ODP)) {
+			String newURL = new String();
+
+			newURL = viewReportType;
+			newURL = newURL.replaceAll("host", getHost());
+			newURL = newURL.replaceAll("volumename", getVolume());
+			newURL = newURL.replaceAll("reportname", reportName);
+			newURL = newURL.replaceAll("formattype", "odp");
+			newURL = newURL.replaceAll(" ", "%20");
+			temp   = getContent(newURL);
+		}else if(outputType.equals(OutputType.ODS)) {
+			String newURL = new String();
+
+			newURL = viewReportType;
+			newURL = newURL.replaceAll("host", getHost());
+			newURL = newURL.replaceAll("volumename", getVolume());
+			newURL = newURL.replaceAll("reportname", reportName);
+			newURL = newURL.replaceAll("formattype", "ods");
+			newURL = newURL.replaceAll(" ", "%20");
+			temp   = getContent(newURL);
+		}else if(outputType.equals(OutputType.ODT)) {
+			String newURL = new String();
+
+			newURL = viewReportType;
+			newURL = newURL.replaceAll("host", getHost());
+			newURL = newURL.replaceAll("volumename", getVolume());
+			newURL = newURL.replaceAll("reportname", reportName);
+			newURL = newURL.replaceAll("formattype", "odt");
+			newURL = newURL.replaceAll(" ", "%20");
+			temp   = getContent(newURL);
+		}else if(outputType.equals(OutputType.PS)) {
+			String newURL = new String();
+
+			newURL = viewReportType;
+			newURL = newURL.replaceAll("host", getHost());
+			newURL = newURL.replaceAll("volumename", getVolume());
+			newURL = newURL.replaceAll("reportname", reportName);
+			newURL = newURL.replaceAll("formattype", "ps");
+			newURL = newURL.replaceAll(" ", "%20");
+			temp   = getContent(newURL);
+		}else if(outputType.equals(OutputType.PPT)) {
+			String newURL = new String();
+
+			newURL = viewReportType;
+			newURL = newURL.replaceAll("host", getHost());
+			newURL = newURL.replaceAll("volumename", getVolume());
+			newURL = newURL.replaceAll("reportname", reportName);
+			newURL = newURL.replaceAll("formattype", "ppt");
+			newURL = newURL.replaceAll(" ", "%20");
+			temp   = getContent(newURL);
+		}else if(outputType.equals(OutputType.PPTX)) {
+			String newURL = new String();
+
+			newURL = viewReportType;
+			newURL = newURL.replaceAll("host", getHost());
+			newURL = newURL.replaceAll("volumename", getVolume());
+			newURL = newURL.replaceAll("reportname", reportName);
+			newURL = newURL.replaceAll("formattype", "pptx");
+			newURL = newURL.replaceAll(" ", "%20");
+			temp   = getContent(newURL);
+		}else if(outputType.equals(OutputType.DOC)) {
+			String newURL = new String();
+
+			newURL = viewReportType;
+			newURL = newURL.replaceAll("host", getHost());
+			newURL = newURL.replaceAll("volumename", getVolume());
+			newURL = newURL.replaceAll("reportname", reportName);
+			newURL = newURL.replaceAll("formattype", "doc");
+			newURL = newURL.replaceAll(" ", "%20");
+			temp   = getContent(newURL);
+		}else if(outputType.equals(OutputType.DOCX)) {
+			String newURL = new String();
+
+			newURL = viewReportType;
+			newURL = newURL.replaceAll("host", getHost());
+			newURL = newURL.replaceAll("volumename", getVolume());
+			newURL = newURL.replaceAll("reportname", reportName);
+			newURL = newURL.replaceAll("formattype", "docx");
+			newURL = newURL.replaceAll(" ", "%20");
+			temp   = getContent(newURL);
 		}
 		
 		// TODO: Add more output types
 		
 		return temp;
+	}
+	
+	private String getContent(String url) {
+		String content = new String();
+		
+		try {
+			URL obj = new URL(url);
+			HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
+			conn.setReadTimeout(60000);
+			conn.addRequestProperty("Accept-Language", "en-US,en;q=0.8");
+			conn.addRequestProperty("User-Agent", "Mozilla");
+			conn.addRequestProperty("Referer", "BMDK");
+			
+			System.out.println("Request URL..." + url);
+			
+			boolean redirect = false;
+			
+			// normally, 3xx is redirect
+			int status = conn.getResponseCode();
+			if (status != HttpURLConnection.HTTP_OK) {
+				if (status == HttpURLConnection.HTTP_MOVED_TEMP
+					|| status == HttpURLConnection.HTTP_MOVED_PERM
+						|| status == HttpURLConnection.HTTP_SEE_OTHER)
+				redirect = true;
+			}
+			
+			System.out.println("Response Code ... " + status);
+			
+			if (redirect) {
+				 
+				// get redirect url from "location" header field
+				String newUrl = conn.getHeaderField("Location");
+				
+				// get the cookie if need, for login
+				String cookies = conn.getHeaderField("Set-Cookie");
+				
+				// open the new connnection again
+				System.out.println(conn.getHeaderField(newUrl));
+				conn = (HttpURLConnection) new URL(newUrl).openConnection();
+				conn.setRequestProperty("Cookie", cookies);
+				conn.addRequestProperty("Accept-Language", "en-US,en;q=0.8");
+				conn.addRequestProperty("User-Agent", "Mozilla");
+				conn.addRequestProperty("Referer", "google.com");
+		 
+				System.out.println("Redirect to URL : " + newUrl);
+		 
+			}
+			
+			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String inputLine;
+			StringBuffer html = new StringBuffer();
+			
+			while ((inputLine = in.readLine()) != null) {
+				html.append(inputLine);
+			}
+			
+			in.close();
+			
+			content = html.toString();
+			System.out.println("Done");
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return content;
 	}
 	
 	public String reportListing() {
