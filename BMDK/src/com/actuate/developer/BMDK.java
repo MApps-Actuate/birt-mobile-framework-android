@@ -115,155 +115,77 @@ public class BMDK {
 		
 		String temp   = new String();
 		
-		if(outputType.equals(OutputType.WebViewer)) {
-			if(viewReportMD5.equals(createHash(viewReport))) {
-				System.out.println("Matches!");
+		if(viewReportTypeMD5.equals(createHash(viewReportType))) {			
+			switch(outputType) {
+			case WebViewer:
 				temp = viewReport;
 				temp = temp.replaceAll("host", getHost());
 				temp = temp.replaceAll("volume", getVolume());
 				temp = temp.replaceAll("username", getUsername());
 				temp = temp.replaceAll("password", decrypt(password));
 				temp = temp.replaceAll("report", reportName);
+				break;
+			case HTML:
+				temp   = getContent(regexJsapi("html", reportName));
+				break;
+			case PDF:
+				temp   = getContent(regexJsapi("pdf", reportName));
+				break;
+			case XLS:
+				temp   = getContent(regexJsapi("xls", reportName));
+				break;
+			case XLSX:
+				temp   = getContent(regexJsapi("xlsx", reportName));
+				break;
+			case ODP:
+				temp   = getContent(regexJsapi("odp", reportName));
+				break;
+			case ODS:
+				temp   = getContent(regexJsapi("ods", reportName));
+				break;
+			case ODT:
+				temp   = getContent(regexJsapi("odt", reportName));
+				break;
+			case PS:
+				temp   = getContent(regexJsapi("ps", reportName));
+				break;
+			case PPT:
+				temp   = getContent(regexJsapi("ppt", reportName));
+				break;
+			case PPTX:
+				temp   = getContent(regexJsapi("pptx", reportName));
+				break;
+			case DOC:
+				temp   = getContent(regexJsapi("doc", reportName));
+				break;
+			case DOCX:
+				temp   = getContent(regexJsapi("docx", reportName));
+				break;
+			default:
 				
-				System.out.println(temp);
-			}else{
-				temp = "MD5 Error!";
-				System.out.println("MD5 Error!");
 			}
-		}else if(outputType.equals(OutputType.HTML)) {
-			if(viewReportTypeMD5.equals(createHash(viewReportType))) {
-				String newURL = new String();
-
-				newURL = viewReportType;
-				newURL = newURL.replaceAll("host", getHost());
-				newURL = newURL.replaceAll("volumename", getVolume());
-				newURL = newURL.replaceAll("reportname", reportName);
-				newURL = newURL.replaceAll("formattype", "html");
-				newURL = newURL.replaceAll(" ", "%20");
-				temp   = getContent(newURL);
-			}else{
-				temp = "MD5 Error!";
-				System.out.println("MD5 Error!");
-			}
-		}else if(outputType.equals(OutputType.PDF)) {
-			if(viewReportTypeMD5.equals(createHash(viewReportType))) {
-				String newURL = new String();
-
-				newURL = viewReportType;
-				newURL = newURL.replaceAll("host", getHost());
-				newURL = newURL.replaceAll("volumename", getVolume());
-				newURL = newURL.replaceAll("reportname", reportName);
-				newURL = newURL.replaceAll("formattype", "pdf");
-				newURL = newURL.replaceAll(" ", "%20");
-				temp   = getContent(newURL);
-			}else{
-				temp = "MD5 Error!";
-				System.out.println("MD5 Error!");
-			}
-		}else if(outputType.equals(OutputType.XLS)) {
-			String newURL = new String();
-
-			newURL = viewReportType;
-			newURL = newURL.replaceAll("host", getHost());
-			newURL = newURL.replaceAll("volumename", getVolume());
-			newURL = newURL.replaceAll("reportname", reportName);
-			newURL = newURL.replaceAll("formattype", "xls");
-			newURL = newURL.replaceAll(" ", "%20");
-			temp   = getContent(newURL);
-		}else if(outputType.equals(OutputType.XLSX)) {
-			String newURL = new String();
-
-			newURL = viewReportType;
-			newURL = newURL.replaceAll("host", getHost());
-			newURL = newURL.replaceAll("volumename", getVolume());
-			newURL = newURL.replaceAll("reportname", reportName);
-			newURL = newURL.replaceAll("formattype", "xlsx");
-			newURL = newURL.replaceAll(" ", "%20");
-			temp   = getContent(newURL);
-		}else if(outputType.equals(OutputType.ODP)) {
-			String newURL = new String();
-
-			newURL = viewReportType;
-			newURL = newURL.replaceAll("host", getHost());
-			newURL = newURL.replaceAll("volumename", getVolume());
-			newURL = newURL.replaceAll("reportname", reportName);
-			newURL = newURL.replaceAll("formattype", "odp");
-			newURL = newURL.replaceAll(" ", "%20");
-			temp   = getContent(newURL);
-		}else if(outputType.equals(OutputType.ODS)) {
-			String newURL = new String();
-
-			newURL = viewReportType;
-			newURL = newURL.replaceAll("host", getHost());
-			newURL = newURL.replaceAll("volumename", getVolume());
-			newURL = newURL.replaceAll("reportname", reportName);
-			newURL = newURL.replaceAll("formattype", "ods");
-			newURL = newURL.replaceAll(" ", "%20");
-			temp   = getContent(newURL);
-		}else if(outputType.equals(OutputType.ODT)) {
-			String newURL = new String();
-
-			newURL = viewReportType;
-			newURL = newURL.replaceAll("host", getHost());
-			newURL = newURL.replaceAll("volumename", getVolume());
-			newURL = newURL.replaceAll("reportname", reportName);
-			newURL = newURL.replaceAll("formattype", "odt");
-			newURL = newURL.replaceAll(" ", "%20");
-			temp   = getContent(newURL);
-		}else if(outputType.equals(OutputType.PS)) {
-			String newURL = new String();
-
-			newURL = viewReportType;
-			newURL = newURL.replaceAll("host", getHost());
-			newURL = newURL.replaceAll("volumename", getVolume());
-			newURL = newURL.replaceAll("reportname", reportName);
-			newURL = newURL.replaceAll("formattype", "ps");
-			newURL = newURL.replaceAll(" ", "%20");
-			temp   = getContent(newURL);
-		}else if(outputType.equals(OutputType.PPT)) {
-			String newURL = new String();
-
-			newURL = viewReportType;
-			newURL = newURL.replaceAll("host", getHost());
-			newURL = newURL.replaceAll("volumename", getVolume());
-			newURL = newURL.replaceAll("reportname", reportName);
-			newURL = newURL.replaceAll("formattype", "ppt");
-			newURL = newURL.replaceAll(" ", "%20");
-			temp   = getContent(newURL);
-		}else if(outputType.equals(OutputType.PPTX)) {
-			String newURL = new String();
-
-			newURL = viewReportType;
-			newURL = newURL.replaceAll("host", getHost());
-			newURL = newURL.replaceAll("volumename", getVolume());
-			newURL = newURL.replaceAll("reportname", reportName);
-			newURL = newURL.replaceAll("formattype", "pptx");
-			newURL = newURL.replaceAll(" ", "%20");
-			temp   = getContent(newURL);
-		}else if(outputType.equals(OutputType.DOC)) {
-			String newURL = new String();
-
-			newURL = viewReportType;
-			newURL = newURL.replaceAll("host", getHost());
-			newURL = newURL.replaceAll("volumename", getVolume());
-			newURL = newURL.replaceAll("reportname", reportName);
-			newURL = newURL.replaceAll("formattype", "doc");
-			newURL = newURL.replaceAll(" ", "%20");
-			temp   = getContent(newURL);
-		}else if(outputType.equals(OutputType.DOCX)) {
-			String newURL = new String();
-
-			newURL = viewReportType;
-			newURL = newURL.replaceAll("host", getHost());
-			newURL = newURL.replaceAll("volumename", getVolume());
-			newURL = newURL.replaceAll("reportname", reportName);
-			newURL = newURL.replaceAll("formattype", "docx");
-			newURL = newURL.replaceAll(" ", "%20");
-			temp   = getContent(newURL);
+		}else{
+			temp = "MD5 Error!";
 		}
 		
 		// TODO: Add spudsoft emitter, decide what to call it
 		// in the enum
+		
+		return temp;
+	}
+
+	//
+	private String regexJsapi(String format, String reportName) {
+		String newURL = new String();
+		String temp   = new String();
+		
+		newURL = viewReportType;
+		newURL = newURL.replaceAll("host", getHost());
+		newURL = newURL.replaceAll("volumename", getVolume());
+		newURL = newURL.replaceAll("reportname", reportName);
+		newURL = newURL.replaceAll("formattype", format);
+		newURL = newURL.replaceAll(" ", "%20");
+		temp   = getContent(newURL);
 		
 		return temp;
 	}
