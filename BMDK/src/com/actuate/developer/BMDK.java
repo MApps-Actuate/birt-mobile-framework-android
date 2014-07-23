@@ -65,6 +65,29 @@ public class BMDK {
 		}
 	}
 	
+	public BMDK(String username, String password, String host, String volume) {
+		try {
+			// Create DES key
+			this.key = KeyGenerator.getInstance("DES").generateKey();
+			
+			// Create the ciphers
+			ecipher = Cipher.getInstance("DES");
+			dcipher = Cipher.getInstance("DES");
+			
+			// Init the ciphers with our new key
+			ecipher.init(Cipher.ENCRYPT_MODE, key);
+			dcipher.init(Cipher.DECRYPT_MODE, key);
+			
+			// Set the parameters that were passed to us
+			setUsername(username);
+			setPassword(password);
+			setHost(host);
+			setVolume(volume);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}		
+	}
+	
 	/**
 	 * Creates a hash for security.  This allows us to make sure
 	 * that none of the private variables have been tampered with
