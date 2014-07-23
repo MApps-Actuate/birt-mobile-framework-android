@@ -1,6 +1,7 @@
 package com.actuate.developer.bmdkmobileexample;
 
 import com.actuate.developer.BMDK;
+import com.actuate.developer.BMDK.OutputType;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -16,19 +17,20 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		// Create our BMDK and set our options
-		BMDK bmdk = new BMDK();
+		BMDK bmdk = new BMDK(/*params*/);
 		bmdk.setHost("http://demo.actuate.com");
 		bmdk.setUsername("kclark");
-		bmdk.setPassword("Password");
+		bmdk.setPassword("Connor14");
 		bmdk.setVolume("Default Volume");
 		
 		// Create the webiview and adjust settings as needed
 		WebView myWebView = (WebView) findViewById(R.id.webview);
 		myWebView.getSettings().setJavaScriptEnabled(true);
 		
-		//myWebView.loadUrl("http://www.google.com");
-		String html = "";
+		
 		myWebView.loadDataWithBaseURL("http://demo.actuate.com/iportal/jsapi", bmdk.reportListing(), "text/html", "UTF-8", null);
+		
+		//myWebView.loadDataWithBaseURL("http://demo.actuate.com/iportal/jsapi", bmdk.exportReport("test.rptdesign", OutputType.WebViewer), "text/html", "UTF-8", null);
 	}
 
 	@Override
