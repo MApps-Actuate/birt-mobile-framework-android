@@ -48,7 +48,7 @@ public class BMDK {
 	 * keys that persist durring the life of this Class
 	 * through the live of the Class.
 	 */
-	public BMDK() {  // TODO: Add params here
+	public BMDK() {
 		try {
 			// Create DES key
 			this.key = KeyGenerator.getInstance("DES").generateKey();
@@ -65,6 +65,15 @@ public class BMDK {
 		}
 	}
 	
+	/**
+	 * BMDK constructor with parameters.  This allows you to create
+	 * a new BMDK object and pass in username, password, host,
+	 * and volume at the same time.
+	 * @param username
+	 * @param password
+	 * @param host
+	 * @param volume
+	 */
 	public BMDK(String username, String password, String host, String volume) {
 		try {
 			// Create DES key
