@@ -40,7 +40,7 @@ public class BMDK {
 	private final String   reportListingMD5     = createHash(reportListing);
 	private final String   viewReport           = "<script type='text/javascript' language='JavaScript' src='host/iportal/jsapi'></script><script type='text/javascript'>actuate.load('viewer');var reqOps = new actuate.RequestOptions();reqOps.setVolume('volume');reqOps.setCustomParameters({});actuate.initialize('http://demo.actuate.com/iportal/', reqOps == undefined ? null : reqOps, 'username', 'password', myInit);function myInit() {viewer1 = new actuate.Viewer('container1');viewer1.setReportDesign('report');var options = new actuate.viewer.UIOptions();viewer1.setUIOptions(options);viewer1.submit();}</script><div id='container1' style='border-width: 0px; border-style: solid;'></div>";
 	private final String   viewReportMD5        = createHash(viewReport);
-	private final String   viewReportType       = "host/iportal/executereport.do?__locale=en_US&__vp=volumename&volume=volumename&closex=true&__executableName=reportname&__requesttype=immediate&__format=formattype";
+	private final String   viewReportType       = "<script type='text/javascript' language='JavaScript' src='host/iportal/jsapi'></script><script type='text/javascript'>var viewer1, viewer2;actuate.load('viewer');var reqOps = new actuate.RequestOptions();reqOps.setVolume('Default Volume');reqOps.setCustomParameters({});actuate.initialize('host/iportal', reqOps == undefined ? null : reqOps, 'username', 'password', myInit);function myInit() {viewer2 = new actuate.Viewer('container2');viewer2.setReportDesign('report');var options2 = new actuate.viewer.UIOptions();viewer2.setUIOptions(options2);viewer2.submit();document.getElementById('container2').innerHTML = 'Please wait, rendering report....';var testtesttest = setTimeout(myDownload, '10000');}function myDownload() {viewer2.downloadReport('format', null, null);}</script><div id='container2' style='border-width: 0px; border-style: solid;'></div>";
 	private final String   viewReportTypeMD5    = createHash(viewReportType);
 		
 	/**
@@ -216,8 +216,8 @@ public class BMDK {
 		newURL = newURL.replaceAll("volumename", getVolume());
 		newURL = newURL.replaceAll("reportname", reportName);
 		newURL = newURL.replaceAll("formattype", format);
-		newURL = newURL.replaceAll(" ", "%20");
-		temp   = getContent(newURL);
+		//newURL = newURL.replaceAll(" ", "%20");
+		//temp   = getContent(newURL);
 		
 		return temp;
 	}
