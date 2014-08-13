@@ -14,9 +14,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+
 import com.sun.mail.util.BASE64DecoderStream;
 import com.sun.mail.util.BASE64EncoderStream;
 
@@ -37,12 +39,13 @@ public class BMDK {
 	private Cipher         dcipher;
 	private MessageDigest  MD5;
 	private final String   reportListing        = "<html><head><meta http-equiv='content-type' content='text/html;charset=utf-8' /><title>Report Explorer Page</title></head><body onload='init( )'><input type='button' style='width: 150pt;' value='View Report' onclick='javascript:displayReport( )' /><hr /><div id='explorerpane'><script type='text/javascript' language='JavaScript' src='host/iportal/jsapi'></script><script type='text/javascript' language='JavaScript'>var file = 'unknown';function init() {actuate.load('reportexplorer');actuate.load('viewer');actuate.load('dialog');requestOpts = new actuate.RequestOptions();actuate.initialize('host/iportal',requestOpts, 'username', 'password', runReportExplorer);}function runReportExplorer() {var explorer = new actuate.ReportExplorer('explorerpane');explorer.registerEventHandler(actuate.reportexplorer.EventConstants.ON_SELECTION_CHANGED, selectionChanged);explorer.setFolderName('/Home/devSite');var resultDef ='Name|FileType|Version|VersionName|Description';explorer.setResultDef(resultDef.split('|'));explorer.submit();}function selectionChanged(selectedItem, pathName) {file = pathName;}function displayReport() {var y = document.getElementById('explorerpane'),child;while (child = y.firstChild) {y.removeChild(child);}var viewer = new actuate.Viewer('explorerpane');try {viewer.setReportName(file);viewer.submit();} catch (e) {alert('Selected file is not viewable: ' + file);runReportExplorer();}}</script></div></body></html>";
+	private final String   downloadReport       = "<html><head><meta http-equiv='content-type' content='text/html;charset=utf-8' /><title>Report Explorer Page</title></head><body onload='init( )'><div id='explorerpane'><script type='text/javascript' language='JavaScript' src='host/iportal/jsapi'></script><script type='text/javascript' language='JavaScript'>function init() {actuate.load('reportexplorer');actuate.load('viewer');actuate.load('dialog');requestOpts = new actuate.RequestOptions();actuate.initialize('host/iportal', requestOpts, 'username', 'password', runReportExplorer);viewer.downloadReport('contenttype', null, null);}</script></div></body></html>";
 	private final String   reportListingMD5     = createHash(reportListing);
 	private final String   viewReport           = "<script type='text/javascript' language='JavaScript' src='host/iportal/jsapi'></script><script type='text/javascript'>actuate.load('viewer');var reqOps = new actuate.RequestOptions();reqOps.setVolume('volume');reqOps.setCustomParameters({});actuate.initialize('http://demo.actuate.com/iportal/', reqOps == undefined ? null : reqOps, 'username', 'password', myInit);function myInit() {viewer1 = new actuate.Viewer('container1');viewer1.setReportDesign('report');var options = new actuate.viewer.UIOptions();viewer1.setUIOptions(options);viewer1.submit();}</script><div id='container1' style='border-width: 0px; border-style: solid;'></div>";
+	@SuppressWarnings("unused")
 	private final String   viewReportMD5        = createHash(viewReport);
 	private final String   viewReportType       = "host/iportal/executereport.do?__locale=en_US&__vp=volumename&volume=volumename&closex=true&__executableName=reportname&__requesttype=immediate&__format=formattype";
-	private final String   viewReportTypeMD5    = createHash(viewReportType);
-		
+	private final String   viewReportTypeMD5    = createHash(viewReportType);	
 	/**
 	 * BMDK constructor.  This will create encryption/decryption
 	 * keys that persist durring the life of this Class
@@ -211,12 +214,13 @@ public class BMDK {
 		String newURL = new String();
 		String temp   = new String();
 		
-		newURL = viewReportType;
+		newURL = downloadReport;
 		newURL = newURL.replaceAll("host", getHost());
 		newURL = newURL.replaceAll("volumename", getVolume());
 		newURL = newURL.replaceAll("reportname", reportName);
 		newURL = newURL.replaceAll("formattype", format);
 		newURL = newURL.replaceAll(" ", "%20");
+		newURL = newURL.replaceAll("contenttype", format);
 		temp   = getContent(newURL);
 		
 		return temp;
@@ -227,6 +231,7 @@ public class BMDK {
 	 * such as exportReport()
 	 * @return Authenticated session
 	 */
+	@SuppressWarnings("unused")
 	private Object login() {
 		// TODO: Use the JSAPI to login and store the
 		// authenticated session to add security to

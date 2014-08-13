@@ -2,13 +2,14 @@ package com.actuate.developer.bmdkmobileexample;
 
 import com.actuate.developer.BMDK;
 import com.actuate.developer.BMDK.OutputType;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
+@SuppressLint("SetJavaScriptEnabled")
 public class MainActivity extends Activity {
 
 	@Override
@@ -17,20 +18,24 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		// Create our BMDK and set our options
-		BMDK bmdk = new BMDK(/*params*/);
-		bmdk.setHost("http://demo.actuate.com");
-		bmdk.setUsername("kclark");
-		bmdk.setPassword("Connor14");
-		bmdk.setVolume("Default Volume");
+		//String username, String password, String host, String volume
+		
+		BMDK bmdk = new BMDK("kclark", "Connor14", "http://demo.actuate.com", "Default Volume");
+		
+		//BMDK bmdk = new BMDK(/*params*/);
+		//bmdk.setHost("http://demo.actuate.com");
+		//bmdk.setUsername("kclark");
+		//bmdk.setPassword("Connor14");
+		//bmdk.setVolume("Default Volume");
 		
 		// Create the webiview and adjust settings as needed
 		WebView myWebView = (WebView) findViewById(R.id.webview);
 		myWebView.getSettings().setJavaScriptEnabled(true);
 		
 		
-		myWebView.loadDataWithBaseURL("http://demo.actuate.com/iportal/jsapi", bmdk.reportListing(), "text/html", "UTF-8", null);
+		//myWebView.loadDataWithBaseURL("http://demo.actuate.com/iportal/jsapi", bmdk.reportListing(), "text/html", "UTF-8", null);
 		
-		//myWebView.loadDataWithBaseURL("http://demo.actuate.com/iportal/jsapi", bmdk.exportReport("test.rptdesign", OutputType.WebViewer), "text/html", "UTF-8", null);
+		myWebView.loadDataWithBaseURL("http://demo.actuate.com/iportal/jsapi", bmdk.exportReport("test.rptdesign", OutputType.PDF), "text/html", "UTF-8", null);
 	}
 
 	@Override
