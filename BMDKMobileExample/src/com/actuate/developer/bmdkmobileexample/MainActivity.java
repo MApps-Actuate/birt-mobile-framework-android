@@ -2,16 +2,26 @@ package com.actuate.developer.bmdkmobileexample;
 
 import com.actuate.developer.BMDK;
 import com.actuate.developer.BMDK.OutputType;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnLongClickListener;
+import android.webkit.DownloadListener;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class MainActivity extends Activity {
-
+	@JavascriptInterface
+	public void showToast(final String toast) {
+		Log.w("TOAST", "TOAST");
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,7 +44,7 @@ public class MainActivity extends Activity {
 		myWebView.getSettings().setJavaScriptEnabled(true);
 		myWebView.getSettings().setSupportMultipleWindows(true);
 		myWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-		
+				
 		//Working
 		//myWebView.loadDataWithBaseURL("http://demo.actuate.com/iportal/jsapi", bmdk.reportListing(), "text/html", "UTF-8", null);
 		
