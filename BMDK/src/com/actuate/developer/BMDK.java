@@ -160,42 +160,54 @@ public class BMDK {
 				temp = temp.replaceAll("username", getUsername());
 				temp = temp.replaceAll("password", decrypt(password));
 				temp = temp.replaceAll("report", reportName);
+				System.out.println(temp);
 				break;
 			case HTML:
 				temp   = getContent(regexJsapi("html", reportName));
 				break;
 			case PDF:
-				temp   = getContent(regexJsapi("pdf", reportName));
+				//temp   = getContent(regexJsapi("pdf", reportName));
+				temp = "<script type='text/javascript' language='JavaScript' src='http://demo.actuate.com/iportal/jsapi'></script><script type='text/javascript'>var viewer2;actuate.load('viewer');var reqOps = new actuate.RequestOptions();reqOps.setVolume('Default Volume');reqOps.setCustomParameters({});actuate.initialize('http://demo.actuate.com/iportal/', reqOps == undefined ? null : reqOps, null, null, myInit);function myInit() {viewer2 = new actuate.Viewer('container2');viewer2.setReportDesign('/Home/devSite/test.rptdesign;1');var options2 = new actuate.viewer.UIOptions();viewer2.setUIOptions(options2);document.getElementById('container2').innerHTML = 'Please wait, rendering report....';viewer2.submit();var testtesttest = setTimeout(myDownload, '10000');}function myDownload() {viewer2.downloadReport('pdf', null, null);}</script><div id='container2' style='border-width: 0px; border-style: solid;'></div>";
 				break;
 			case XLS:
-				temp   = getContent(regexJsapi("xls", reportName));
+				//temp   = getContent(regexJsapi("xls", reportName));
+				temp = "<script type='text/javascript' language='JavaScript' src='http://demo.actuate.com/iportal/jsapi'></script><script type='text/javascript'>var viewer2;actuate.load('viewer');var reqOps = new actuate.RequestOptions();reqOps.setVolume('Default Volume');reqOps.setCustomParameters({});actuate.initialize('http://demo.actuate.com/iportal/', reqOps == undefined ? null : reqOps, null, null, myInit);function myInit() {viewer2 = new actuate.Viewer('container2');viewer2.setReportDesign('/Home/devSite/test.rptdesign;1');var options2 = new actuate.viewer.UIOptions();viewer2.setUIOptions(options2);document.getElementById('container2').innerHTML = 'Please wait, rendering report....';viewer2.submit();var testtesttest = setTimeout(myDownload, '10000');}function myDownload() {viewer2.downloadReport('xls', null, null);}</script><div id='container2' style='border-width: 0px; border-style: solid;'></div>";
 				break;
 			case XLSX:
-				temp   = getContent(regexJsapi("xlsx", reportName));
+				//temp   = getContent(regexJsapi("xlsx", reportName));
+				temp = "<script type='text/javascript' language='JavaScript' src='http://demo.actuate.com/iportal/jsapi'></script><script type='text/javascript'>var viewer2;actuate.load('viewer');var reqOps = new actuate.RequestOptions();reqOps.setVolume('Default Volume');reqOps.setCustomParameters({});actuate.initialize('http://demo.actuate.com/iportal/', reqOps == undefined ? null : reqOps, null, null, myInit);function myInit() {viewer2 = new actuate.Viewer('container2');viewer2.setReportDesign('/Home/devSite/test.rptdesign;1');var options2 = new actuate.viewer.UIOptions();viewer2.setUIOptions(options2);document.getElementById('container2').innerHTML = 'Please wait, rendering report....';viewer2.submit();var testtesttest = setTimeout(myDownload, '10000');}function myDownload() {viewer2.downloadReport('xlsx', null, null);}</script><div id='container2' style='border-width: 0px; border-style: solid;'></div>";
 				break;
 			case ODP:
-				temp   = getContent(regexJsapi("odp", reportName));
+				//temp   = getContent(regexJsapi("odp", reportName));
+				temp = "<script type='text/javascript' language='JavaScript' src='http://demo.actuate.com/iportal/jsapi'></script><script type='text/javascript'>var viewer2;actuate.load('viewer');var reqOps = new actuate.RequestOptions();reqOps.setVolume('Default Volume');reqOps.setCustomParameters({});actuate.initialize('http://demo.actuate.com/iportal/', reqOps == undefined ? null : reqOps, null, null, myInit);function myInit() {viewer2 = new actuate.Viewer('container2');viewer2.setReportDesign('/Home/devSite/test.rptdesign;1');var options2 = new actuate.viewer.UIOptions();viewer2.setUIOptions(options2);document.getElementById('container2').innerHTML = 'Please wait, rendering report....';viewer2.submit();var testtesttest = setTimeout(myDownload, '10000');}function myDownload() {viewer2.downloadReport('odp', null, null);}</script><div id='container2' style='border-width: 0px; border-style: solid;'></div>";
 				break;
 			case ODS:
-				temp   = getContent(regexJsapi("ods", reportName));
+				//temp   = getContent(regexJsapi("ods", reportName));
+				temp = "<script type='text/javascript' language='JavaScript' src='http://demo.actuate.com/iportal/jsapi'></script><script type='text/javascript'>var viewer2;actuate.load('viewer');var reqOps = new actuate.RequestOptions();reqOps.setVolume('Default Volume');reqOps.setCustomParameters({});actuate.initialize('http://demo.actuate.com/iportal/', reqOps == undefined ? null : reqOps, null, null, myInit);function myInit() {viewer2 = new actuate.Viewer('container2');viewer2.setReportDesign('/Home/devSite/test.rptdesign;1');var options2 = new actuate.viewer.UIOptions();viewer2.setUIOptions(options2);document.getElementById('container2').innerHTML = 'Please wait, rendering report....';viewer2.submit();var testtesttest = setTimeout(myDownload, '10000');}function myDownload() {viewer2.downloadReport('ods', null, null);}</script><div id='container2' style='border-width: 0px; border-style: solid;'></div>";
 				break;
 			case ODT:
-				temp   = getContent(regexJsapi("odt", reportName));
+				//temp   = getContent(regexJsapi("odt", reportName));
+				temp = "<script type='text/javascript' language='JavaScript' src='http://demo.actuate.com/iportal/jsapi'></script><script type='text/javascript'>var viewer2;actuate.load('viewer');var reqOps = new actuate.RequestOptions();reqOps.setVolume('Default Volume');reqOps.setCustomParameters({});actuate.initialize('http://demo.actuate.com/iportal/', reqOps == undefined ? null : reqOps, null, null, myInit);function myInit() {viewer2 = new actuate.Viewer('container2');viewer2.setReportDesign('/Home/devSite/test.rptdesign;1');var options2 = new actuate.viewer.UIOptions();viewer2.setUIOptions(options2);document.getElementById('container2').innerHTML = 'Please wait, rendering report....';viewer2.submit();var testtesttest = setTimeout(myDownload, '10000');}function myDownload() {viewer2.downloadReport('odt', null, null);}</script><div id='container2' style='border-width: 0px; border-style: solid;'></div>";
 				break;
 			case PS:
-				temp   = getContent(regexJsapi("ps", reportName));
+				//temp   = getContent(regexJsapi("ps", reportName));
+				temp = "<script type='text/javascript' language='JavaScript' src='http://demo.actuate.com/iportal/jsapi'></script><script type='text/javascript'>var viewer2;actuate.load('viewer');var reqOps = new actuate.RequestOptions();reqOps.setVolume('Default Volume');reqOps.setCustomParameters({});actuate.initialize('http://demo.actuate.com/iportal/', reqOps == undefined ? null : reqOps, null, null, myInit);function myInit() {viewer2 = new actuate.Viewer('container2');viewer2.setReportDesign('/Home/devSite/test.rptdesign;1');var options2 = new actuate.viewer.UIOptions();viewer2.setUIOptions(options2);document.getElementById('container2').innerHTML = 'Please wait, rendering report....';viewer2.submit();var testtesttest = setTimeout(myDownload, '10000');}function myDownload() {viewer2.downloadReport('ps', null, null);}</script><div id='container2' style='border-width: 0px; border-style: solid;'></div>";
 				break;
 			case PPT:
-				temp   = getContent(regexJsapi("ppt", reportName));
+				//temp   = getContent(regexJsapi("ppt", reportName));
+				temp = "<script type='text/javascript' language='JavaScript' src='http://demo.actuate.com/iportal/jsapi'></script><script type='text/javascript'>var viewer2;actuate.load('viewer');var reqOps = new actuate.RequestOptions();reqOps.setVolume('Default Volume');reqOps.setCustomParameters({});actuate.initialize('http://demo.actuate.com/iportal/', reqOps == undefined ? null : reqOps, null, null, myInit);function myInit() {viewer2 = new actuate.Viewer('container2');viewer2.setReportDesign('/Home/devSite/test.rptdesign;1');var options2 = new actuate.viewer.UIOptions();viewer2.setUIOptions(options2);document.getElementById('container2').innerHTML = 'Please wait, rendering report....';viewer2.submit();var testtesttest = setTimeout(myDownload, '10000');}function myDownload() {viewer2.downloadReport('ppt', null, null);}</script><div id='container2' style='border-width: 0px; border-style: solid;'></div>";
 				break;
 			case PPTX:
-				temp   = getContent(regexJsapi("pptx", reportName));
+				//temp   = getContent(regexJsapi("pptx", reportName));
+				temp = "<script type='text/javascript' language='JavaScript' src='http://demo.actuate.com/iportal/jsapi'></script><script type='text/javascript'>var viewer2;actuate.load('viewer');var reqOps = new actuate.RequestOptions();reqOps.setVolume('Default Volume');reqOps.setCustomParameters({});actuate.initialize('http://demo.actuate.com/iportal/', reqOps == undefined ? null : reqOps, null, null, myInit);function myInit() {viewer2 = new actuate.Viewer('container2');viewer2.setReportDesign('/Home/devSite/test.rptdesign;1');var options2 = new actuate.viewer.UIOptions();viewer2.setUIOptions(options2);document.getElementById('container2').innerHTML = 'Please wait, rendering report....';viewer2.submit();var testtesttest = setTimeout(myDownload, '10000');}function myDownload() {viewer2.downloadReport('pptx', null, null);}</script><div id='container2' style='border-width: 0px; border-style: solid;'></div>";
 				break;
 			case DOC:
-				temp   = getContent(regexJsapi("doc", reportName));
+				//temp   = getContent(regexJsapi("doc", reportName));
+				temp = "<script type='text/javascript' language='JavaScript' src='http://demo.actuate.com/iportal/jsapi'></script><script type='text/javascript'>var viewer2;actuate.load('viewer');var reqOps = new actuate.RequestOptions();reqOps.setVolume('Default Volume');reqOps.setCustomParameters({});actuate.initialize('http://demo.actuate.com/iportal/', reqOps == undefined ? null : reqOps, null, null, myInit);function myInit() {viewer2 = new actuate.Viewer('container2');viewer2.setReportDesign('/Home/devSite/test.rptdesign;1');var options2 = new actuate.viewer.UIOptions();viewer2.setUIOptions(options2);document.getElementById('container2').innerHTML = 'Please wait, rendering report....';viewer2.submit();var testtesttest = setTimeout(myDownload, '10000');}function myDownload() {viewer2.downloadReport('doc', null, null);}</script><div id='container2' style='border-width: 0px; border-style: solid;'></div>";
 				break;
 			case DOCX:
-				temp   = getContent(regexJsapi("docx", reportName));
+				//temp   = getContent(regexJsapi("docx", reportName));
+				temp = "<script type='text/javascript' language='JavaScript' src='http://demo.actuate.com/iportal/jsapi'></script><script type='text/javascript'>var viewer2;actuate.load('viewer');var reqOps = new actuate.RequestOptions();reqOps.setVolume('Default Volume');reqOps.setCustomParameters({});actuate.initialize('http://demo.actuate.com/iportal/', reqOps == undefined ? null : reqOps, null, null, myInit);function myInit() {viewer2 = new actuate.Viewer('container2');viewer2.setReportDesign('/Home/devSite/test.rptdesign;1');var options2 = new actuate.viewer.UIOptions();viewer2.setUIOptions(options2);document.getElementById('container2').innerHTML = 'Please wait, rendering report....';viewer2.submit();var testtesttest = setTimeout(myDownload, '10000');}function myDownload() {viewer2.downloadReport('docx', null, null);}</script><div id='container2' style='border-width: 0px; border-style: solid;'></div>";
 				break;
 			default:
 				

@@ -30,12 +30,16 @@ public class MainActivity extends Activity {
 		
 		// Create the webiview and adjust settings as needed
 		WebView myWebView = (WebView) findViewById(R.id.webview);
+		myWebView.getSettings().setAllowFileAccess(true);
 		myWebView.getSettings().setJavaScriptEnabled(true);
+		myWebView.getSettings().setSupportMultipleWindows(true);
+		myWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 		
-		
+		//Working
 		//myWebView.loadDataWithBaseURL("http://demo.actuate.com/iportal/jsapi", bmdk.reportListing(), "text/html", "UTF-8", null);
 		
-		myWebView.loadDataWithBaseURL("http://demo.actuate.com/iportal/jsapi", bmdk.exportReport("test.rptdesign", OutputType.PDF), "text/html", "UTF-8", null);
+		//Must have full report path
+		myWebView.loadDataWithBaseURL("http://demo.actuate.com/iportal/jsapi", bmdk.exportReport("/Home/devSite/test.rptdesign", OutputType.DOC) , "text/html", "UTF-8", null);
 	}
 
 	@Override
