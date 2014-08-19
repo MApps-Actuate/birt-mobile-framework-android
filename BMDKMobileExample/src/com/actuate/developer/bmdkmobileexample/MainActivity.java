@@ -5,22 +5,23 @@ import com.actuate.developer.BMDK.OutputType;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.Button;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class MainActivity extends Activity {
-	@JavascriptInterface
-	public void showToast(final String toast) {
-		Log.w("TOAST", "TOAST");
-	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,24 +33,16 @@ public class MainActivity extends Activity {
 		
 		BMDK bmdk = new BMDK("kclark", "Connor14", "http://demo.actuate.com", "Default Volume");
 		
-		//BMDK bmdk = new BMDK(/*params*/);
-		//bmdk.setHost("http://demo.actuate.com");
-		//bmdk.setUsername("kclark");
-		//bmdk.setPassword("Connor14");
-		//bmdk.setVolume("Default Volume");
-		
-		// Create the webiview and adjust settings as needed
-		WebView myWebView = (WebView) findViewById(R.id.webview);
-		myWebView.getSettings().setAllowFileAccess(true);
-		myWebView.getSettings().setJavaScriptEnabled(true);
+		// Create the webiview anhd adjust settings as needed
+		WebView myWebView = (WebView) findViewById(R.id.myWebView);
 		myWebView.getSettings().setSupportMultipleWindows(true);
 		myWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-				
+		myWebView.getSettings().setJavaScriptEnabled(true);
+						
 		//Working
-		//myWebView.loadDataWithBaseURL("http://demo.actuate.com/iportal/jsapi", bmdk.reportListing(), "text/html", "UTF-8", null);
+		myWebView.loadDataWithBaseURL("http://demo.actuate.com/iportal/jsapi", bmdk.reportListing(), "text/html", "UTF-8", null);
 		
-		//Must have full report path
-		myWebView.loadDataWithBaseURL("http://demo.actuate.com/iportal/jsapi", bmdk.exportReport("/Home/devSite/test.rptdesign", OutputType.DOC) , "text/html", "UTF-8", null);
+
 	}
 
 	@Override
