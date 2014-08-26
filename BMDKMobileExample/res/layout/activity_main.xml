@@ -8,9 +8,30 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.actuate.developer.bmdkmobileexample.MainActivity" >
 
+    <Button
+        android:id="@+id/btnView"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="View Report" />
+
+    <Button
+        android:id="@+id/btnList"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnView"
+        android:layout_alignBottom="@+id/btnView"
+        android:layout_toRightOf="@+id/btnView"
+        android:text="Report List" />
+
     <WebView
-        android:id="@+id/myWebView"
+        android:id="@+id/webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/btnView"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

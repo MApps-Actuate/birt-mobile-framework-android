@@ -3,46 +3,75 @@ package com.actuate.developer.bmdkmobileexample;
 import com.actuate.developer.BMDK;
 import com.actuate.developer.BMDK.OutputType;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
-import android.webkit.DownloadListener;
-import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
+import android.view.Window;
+import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 
-@SuppressLint("SetJavaScriptEnabled")
-public class MainActivity extends Activity {
-	
+public class MainActivity extends Activity {	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
 		// Create our BMDK and set our options
-		//String username, String password, String host, String volume
+		BMDK bmdk = new BMDK(/*params*/);
+		bmdk.setHost("http://demo.actuate.com");
+		bmdk.setUsername("kclark");
+		bmdk.setPassword("Connor14");
+		bmdk.setVolume("Default Volume");
 		
-		BMDK bmdk = new BMDK("kclark", "Connor14", "http://demo.actuate.com", "Default Volume");
+		// Create the webiview and adjust settings as needed
+		final WebView myWebView = (WebView) findViewById(R.id.webview);
 		
-		// Create the webiview anhd adjust settings as needed
-		WebView myWebView = (WebView) findViewById(R.id.myWebView);
-		myWebView.getSettings().setSupportMultipleWindows(true);
-		myWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+		// Enable JavaScript
 		myWebView.getSettings().setJavaScriptEnabled(true);
-						
-		//Working
-		myWebView.loadDataWithBaseURL("http://demo.actuate.com/iportal/jsapi", bmdk.reportListing(), "text/html", "UTF-8", null);
 		
+		// Zoom controls
+		myWebView.getSettings().setUseWideViewPort(true);
+		myWebView.getSettings().setBuiltInZoomControls(true);
+		myWebView.getSettings().setDisplayZoomControls(true);
+		myWebView.setVerticalScrollBarEnabled(true);
+		myWebView.setHorizontalScrollBarEnabled(true);
+		
+		// Force links to open in the same webview
+		myWebView.setWebViewClient(new WebViewClient() {
+	        @Override
+	        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+	            view.loadUrl(url);
+	            return false;
+	        }
+	    });
+		
+		final Button btnView = (Button) findViewById(R.id.btnView);
+		final Button btnList = (Button) findViewById(R.id.btnList);
+		
+		btnView.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				myWebView.loadUrl("javascript:displayReport()");
+			}
+		});
+		
+		btnList.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				myWebView.loadUrl("javascript:runReportExplorer()");
+			}
+		});
 
+		
+		myWebView.loadDataWithBaseURL("http://demo.actuate.com/iportal/jsapi", bmdk.reportListing(), "text/html", "UTF-8", null);
 	}
 
 	@Override
