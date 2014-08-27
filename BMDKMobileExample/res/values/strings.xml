@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">BMDKMobileExample</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">BMDKMobile</string>
+    <string name="title_section1">Report Listing</string>
+    <string name="title_section2">View Report</string>
+    <string name="title_section3">Download Report</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
 
+    <string name="prefTitle">Prefs</string>
+    
+    <string name="pref_sync"/>
+    <string name="pref_sync_summ"/>
+    <string name="pref_syncConnectionType"/>
+    <string name="pref_syncConnectionTypes_default"/>
 </resources>
