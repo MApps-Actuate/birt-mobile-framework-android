@@ -24,11 +24,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		// Create our BMDK and set our options
-		BMDK bmdk = new BMDK(/*params*/);
-		bmdk.setHost("http://demo.actuate.com");
-		bmdk.setUsername("kclark");
-		bmdk.setPassword("Connor14");
-		bmdk.setVolume("Default Volume");
+		final BMDK bmdk = new BMDK("kclark", "Connor14", "http://demo.actuate.com", "Default Volume");
 		
 		// Create the webiview and adjust settings as needed
 		final WebView myWebView = (WebView) findViewById(R.id.webview);
@@ -66,7 +62,7 @@ public class MainActivity extends Activity {
 		btnList.setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				myWebView.loadUrl("javascript:runReportExplorer()");
+				myWebView.loadDataWithBaseURL("http://demo.actuate.com/iportal/jsapi", bmdk.reportListing(), "text/html", "UTF-8", null);
 			}
 		});
 
