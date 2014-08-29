@@ -19,14 +19,38 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements
 		NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+	public class JavaScriptInterface extends Activity {
+		Context mContext;
+		
+		JavaScriptInterface(Context c) {
+			mContext = c;
+		}
+		
+		@JavascriptInterface
+		public void receiveValueFromJs(String str) {
+			Log.w("TOAST", "Make toast!");
+			Toast.makeText(mContext, "Recieved value from JS: " + str, Toast.LENGTH_SHORT).show();
+		}
+		
+		@JavascriptInterface
+		public void selectionChange() {
+			Log.w("TOAST", "Make toast!");
+			Toast.makeText(mContext, "Report selection change!", Toast.LENGTH_SHORT).show();
+			
+			super.findViewById(R.id.drawer_layout).
+		}
+	  }
+	
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the
 	 * navigation drawer.
@@ -46,7 +70,7 @@ public class MainActivity extends Activity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
 		mTitle = getTitle();
@@ -61,6 +85,7 @@ public class MainActivity extends Activity implements
 		
 		// Enable JavaScript
 		myWebView.getSettings().setJavaScriptEnabled(true);
+		myWebView.addJavascriptInterface(new JavaScriptInterface(this), "MyAndroid");
 				
 		// Zoom controls
 		myWebView.getSettings().setUseWideViewPort(true);
@@ -106,6 +131,10 @@ public class MainActivity extends Activity implements
 			}
 			break;
 		case 2:
+			if(myWebView != null) {
+				Log.w("DOWNLOAD", "Download cliked!");
+				myWebView.loadUrl("javascript:download()");
+			}
 			break;
 		}
 		
@@ -159,7 +188,6 @@ public class MainActivity extends Activity implements
 			return true;
 		}
 		
-		Log.w("Menu", item.getTitle().toString());
 		return super.onOptionsItemSelected(item);
 	}
 	
