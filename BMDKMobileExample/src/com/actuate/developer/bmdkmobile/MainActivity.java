@@ -2,54 +2,35 @@ package com.actuate.developer.bmdkmobile;
 
 import com.actuate.developer.BMDK;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActionBar;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements
 		NavigationDrawerFragment.NavigationDrawerCallbacks {
-
-	public class JavaScriptInterface extends Activity {
-		Context mContext;
-		
-		JavaScriptInterface(Context c) {
-			mContext = c;
-		}
-		
-		@JavascriptInterface
-		public void receiveValueFromJs(String str) {
-			Log.w("TOAST", "Make toast!");
-			Toast.makeText(mContext, "Recieved value from JS: " + str, Toast.LENGTH_SHORT).show();
-		}
-		
-		@JavascriptInterface
-		public void selectionChange() {
-			Log.w("TOAST", "Make toast!");
-			Toast.makeText(mContext, "Report selection change!", Toast.LENGTH_SHORT).show();
-			
-			super.findViewById(R.id.drawer_layout).
-		}
-	  }
+	
+	@JavascriptInterface
+	public void receiveValueFromJs(String str) {
+		Toast.makeText(this, "Recieved value from JS: " + str, Toast.LENGTH_SHORT).show();
+	}
+	
+	@JavascriptInterface
+	public void selectionChange() {			
+		Toast.makeText(this, "TODO: Implement navigation drawer open on click", Toast.LENGTH_SHORT).show();
+	}
 	
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the
@@ -66,6 +47,7 @@ public class MainActivity extends Activity implements
 	private BMDK    bmdk = new BMDK("kclark", "Connor14", "http://demo.actuate.com", "Default Volume");
 	private WebView myWebView;
 	
+	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,13 +61,14 @@ public class MainActivity extends Activity implements
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
 		
-		
 		// Create the webiview and adjust settings as needed
 		myWebView = (WebView) findViewById(R.id.webview);
 		
 		// Enable JavaScript
 		myWebView.getSettings().setJavaScriptEnabled(true);
-		myWebView.addJavascriptInterface(new JavaScriptInterface(this), "MyAndroid");
+		
+		myWebView.addJavascriptInterface(this, "MyAndroid");
+		
 				
 		// Zoom controls
 		myWebView.getSettings().setUseWideViewPort(true);
@@ -104,20 +87,10 @@ public class MainActivity extends Activity implements
 		});
 		
 		myWebView.loadDataWithBaseURL("http://demo.actuate.com/iportal/jsapi", bmdk.reportListing(), "text/html", "UTF-8", null);
-		
-		
 	}
-	
-	
 
 	@Override
-	public void onNavigationDrawerItemSelected(int position) {
-		// update the main content by replacing fragments
-		//FragmentManager fragmentManager = getFragmentManager();
-		//fragmentManager
-		//		.beginTransaction()
-		//		.replace(R.id.container,
-		//				PlaceholderFragment.newInstance(position + 1)).commit();
+	public void onNavigationDrawerItemSelected(int position) {		
 		
 		switch(position) {
 		case 0:
@@ -193,50 +166,6 @@ public class MainActivity extends Activity implements
 	
 	@Override
 	public boolean onPreferenceClick(Preference preference) {
-		Log.w("Prefs", "prefs clicked");
 		return false;
 	}
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		private static final String ARG_SECTION_NUMBER = "section_number";
-
-		/**
-		 * Returns a new instance of this fragment for the given section number.
-		 */
-		public static PlaceholderFragment newInstance(int sectionNumber) {
-			PlaceholderFragment fragment = new PlaceholderFragment();
-			Bundle args = new Bundle();
-			args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-			fragment.setArguments(args);
-			return fragment;
-		}
-
-		public PlaceholderFragment() {
-		}
-		
-		
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container,
-					false);
-			return rootView;
-		}
-
-		@Override
-		public void onAttach(Activity activity) {
-			super.onAttach(activity);
-			((MainActivity) activity).onSectionAttached(getArguments().getInt(
-					ARG_SECTION_NUMBER));
-		}
-	}
-
 }
