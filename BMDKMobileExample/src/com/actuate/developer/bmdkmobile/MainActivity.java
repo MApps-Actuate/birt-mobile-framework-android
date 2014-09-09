@@ -7,12 +7,9 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.text.Layout;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.support.v4.widget.DrawerLayout;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -22,14 +19,27 @@ import android.widget.Toast;
 public class MainActivity extends Activity implements
 		NavigationDrawerFragment.NavigationDrawerCallbacks {
 	
+	private String jsReportName = null; 
+	
 	@JavascriptInterface
 	public void receiveValueFromJs(String str) {
 		Toast.makeText(this, "Recieved value from JS: " + str, Toast.LENGTH_SHORT).show();
 	}
 	
 	@JavascriptInterface
-	public void selectionChange() {			
-		Toast.makeText(this, "TODO: Implement navigation drawer open on click", Toast.LENGTH_SHORT).show();
+	public void selectionChange(String reportName) {
+		if(!reportName.contains("rptdesign")) { 
+			jsReportName = null;
+		}else if(jsReportName == null) {
+			jsReportName = reportName;
+			Toast.makeText(this, "Tap again to open " + jsReportName + " or use the menu", Toast.LENGTH_LONG).show();
+		}else if(!jsReportName.equals(reportName)) {
+			Toast.makeText(this, "Tap again to open " + jsReportName + " or use the menu", Toast.LENGTH_LONG).show();
+			jsReportName = reportName;
+		}else if(jsReportName.equals(reportName)) {
+			Toast.makeText(this, "Opening " + jsReportName + "...", Toast.LENGTH_LONG).show();
+			myWebView.loadUrl("javascript:displayReport()");
+		}
 	}
 	
 	/**
@@ -37,13 +47,13 @@ public class MainActivity extends Activity implements
 	 * navigation drawer.
 	 */
 	private NavigationDrawerFragment mNavigationDrawerFragment;
-
+	
 	/**
 	 * Used to store the last screen title. For use in
 	 * {@link #restoreActionBar()}.
 	 */
 	private CharSequence mTitle;
-
+	
 	private BMDK    bmdk = new BMDK("kclark", "Connor14", "http://demo.actuate.com", "Default Volume");
 	private WebView myWebView;
 	
@@ -85,7 +95,7 @@ public class MainActivity extends Activity implements
 		           return false;
 		       }
 		});
-		
+
 		myWebView.loadDataWithBaseURL("http://demo.actuate.com/iportal/jsapi", bmdk.reportListing(), "text/html", "UTF-8", null);
 	}
 
@@ -138,6 +148,7 @@ public class MainActivity extends Activity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		
 		if (!mNavigationDrawerFragment.isDrawerOpen()) {
 			// Only show items in the action bar relevant to this screen
 			// if the drawer is not showing. Otherwise, let the drawer
@@ -153,8 +164,7 @@ public class MainActivity extends Activity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		
+		// as you specify a parent activity in AndroidManifest.xml.		
 		int id = item.getItemId();
 		
 		if (id == R.id.action_settings) {
