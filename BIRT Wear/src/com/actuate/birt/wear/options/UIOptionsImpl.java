@@ -3,7 +3,7 @@ package com.actuate.birt.wear.options;
 public class UIOptionsImpl implements UIOptions {
 	private boolean enableAdvancedSort		 = true;
 	private boolean enableAggregation		 = true;
-	private boolean enableCalculatedColumns	 = true;
+	private boolean enableCalculatedColumn	 = true;
 	private boolean enableChartProperty		 = true;
 	private boolean enableChartSubType		 = true;
 	private boolean enableCollapseExpand	 = true;
@@ -45,7 +45,6 @@ public class UIOptionsImpl implements UIOptions {
 	private boolean enableToolbarHelp 		 = true;
 	private boolean enableTopBottomNFilter	 = true;
 	private boolean enableUndoRedo			 = true;
-	private boolean getFeatureMap			 = true;
 	
 	@Override
 	public String getUIOptions() {
@@ -53,7 +52,7 @@ public class UIOptionsImpl implements UIOptions {
 		
 		uioptions = "options.enableAdvancedSort(" 		+ this.getAdvancedSort() 		+ ");\n" +
 					"options.enableAggregation(" 		+ this.getAggregation() 		+ ");\n" +
-					"options.enableCalculatedColumns(" 	+ this.getCalculatedColumns() 	+ ");\n" +
+					"options.enableCalculatedColumn(" 	+ this.getCalculatedColumns() 	+ ");\n" +
 					"options.enableChartProperty(" 		+ this.getChartProperty() 		+ ");\n" +
 					"options.enableChartSubType(" 		+ this.getChartSubType() 		+ ");\n" +
 					"options.enableCollapseExpand(" 	+ this.getCollapseExpand() 		+ ");\n" +
@@ -66,7 +65,7 @@ public class UIOptionsImpl implements UIOptions {
 					"options.enableExportReport(" 		+ this.getExportReport() 		+ ");\n" +
 					"options.enableFilter(" 			+ this.getFilter() 				+ ");\n" +
 					"options.enableFacebookComments(" 	+ this.getFacebookComments() 	+ ");\n" +
-					"options.enableFlashGadetType(" 	+ this.getFlashGadgetType() 	+ ");\n" +
+					"options.enableFlashGadgetType(" 	+ this.getFlashGadgetType() 	+ ");\n" +
 					"options.enableFormat(" 			+ this.getFormat() 				+ ");\n" +
 					"options.enableGroupEdit(" 			+ this.getGroupEdit() 			+ ");\n" +
 					"options.enableHideShowItems(" 		+ this.getHideShowItems() 		+ ");\n" +
@@ -94,8 +93,7 @@ public class UIOptionsImpl implements UIOptions {
 					"options.enableToolbarContextMenu(" + this.getToolbarContextMenu() 	+ ");\n" +
 					"options.enableToolbarHelp("        + this.getToolbarHelp() 		+ ");\n" +
 					"options.enableTopBottomNFilter("   + this.getTopBottomNFilter() 	+ ");\n" +
-					"options.enableUndoRedo("           + this.getUndoRedo() 			+ ");\n" +
-					"options.enableFeatureMap("         + this.getFeatureMap()			+ ");\n";
+					"options.enableUndoRedo("           + this.getUndoRedo() 			+ ");\n";
 		
 		return uioptions;
 	}
@@ -111,8 +109,8 @@ public class UIOptionsImpl implements UIOptions {
 	}
 
 	@Override
-	public void enableCalculatedColumns(boolean enable) {
-		this.enableCalculatedColumns = enable;
+	public void enableCalculatedColumn(boolean enable) {
+		this.enableCalculatedColumn = enable;
 	}
 
 	@Override
@@ -321,11 +319,6 @@ public class UIOptionsImpl implements UIOptions {
 	}
 
 	@Override
-	public void getFeatureMap(boolean enable) {
-		this.getFeatureMap = enable;
-	}
-
-	@Override
 	public boolean getAdvancedSort() {
 		return this.enableAdvancedSort;
 	}
@@ -337,7 +330,7 @@ public class UIOptionsImpl implements UIOptions {
 
 	@Override
 	public boolean getCalculatedColumns() {
-		return this.enableCalculatedColumns;
+		return this.enableCalculatedColumn;
 	}
 
 	@Override
@@ -543,11 +536,6 @@ public class UIOptionsImpl implements UIOptions {
 	@Override
 	public boolean getUndoRedo() {
 		return this.enableUndoRedo;
-	}
-
-	@Override
-	public boolean getFeatureMap() {
-		return this.getFeatureMap;		
 	}
 	
 }

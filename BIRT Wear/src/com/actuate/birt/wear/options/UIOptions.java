@@ -6,7 +6,7 @@ public interface UIOptions {
 	// Setters
 	public void enableAdvancedSort(boolean enable);
 	public void enableAggregation(boolean  enable);
-	public void enableCalculatedColumns(boolean enable);
+	public void enableCalculatedColumn(boolean enable);
 	public void enableChartProperty(boolean enable);
 	public void enableChartSubType(boolean enable);
 	public void enableCollapseExpand(boolean enable);
@@ -48,7 +48,6 @@ public interface UIOptions {
 	public void enableToolbarHelp(boolean enable);
 	public void enableTopBottomNFilter(boolean enable);
 	public void enableUndoRedo(boolean enable);
-	public void getFeatureMap(boolean enable);
 	
 	// Getters
 	public boolean getAdvancedSort();
@@ -95,5 +94,4 @@ public interface UIOptions {
 	public boolean getToolbarHelp();
 	public boolean getTopBottomNFilter();
 	public boolean getUndoRedo();
-	public boolean getFeatureMap();
 }
