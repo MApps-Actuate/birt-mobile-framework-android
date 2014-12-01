@@ -6,6 +6,7 @@ This is the Java-based framework to be used by Android mobile app developers to 
 How to
 =============================
 BIRTWear  birtWear  = new BIRTWearImpl();
+
 UIOptions uiOptions = new UIOptionsImpl();
 		
 birtWear.setJSAPILocation("http://localhost:8700/jsapi");
