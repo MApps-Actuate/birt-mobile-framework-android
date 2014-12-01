@@ -45,7 +45,7 @@ Sample output
 </head>
 
 <body style='margin:0; padding:0'>
-    <script type='text/javascript' language='JavaScript' src='http://localhost:8700/jsapi'></script>
+    <script type='text/javascript' language='JavaScript' src='http://localhost:8700/iportal/jsapi'></script>
     <script type='text/javascript'>
         actuate.load('viewer');
         var reqOps = new actuate.RequestOptions();
@@ -57,12 +57,12 @@ Sample output
 
         function myInit() {
             viewer1 = new actuate.Viewer('container1');
-            viewer1.setReportName('Report Designs/test.rptdesign');
+            viewer1.setReportName('Report Designs/Account Overview Table.rptdesign');
             viewer1.setContentMargin(0);
             var options = new actuate.viewer.UIOptions();
             options.enableAdvancedSort(true);
             options.enableAggregation(true);
-            options.enableCalculatedColumns(true);
+            options.enableCalculatedColumn(true);
             options.enableChartProperty(true);
             options.enableChartSubType(true);
             options.enableCollapseExpand(true);
@@ -75,7 +75,7 @@ Sample output
             options.enableExportReport(true);
             options.enableFilter(true);
             options.enableFacebookComments(true);
-            options.enableFlashGadetType(true);
+            options.enableFlashGadgetType(true);
             options.enableFormat(true);
             options.enableGroupEdit(true);
             options.enableHideShowItems(true);
@@ -104,7 +104,6 @@ Sample output
             options.enableToolbarHelp(true);
             options.enableTopBottomNFilter(true);
             options.enableUndoRedo(true);
-            options.enableFeatureMap(true);
 
             viewer1.setUIOptions(options);
             viewer1.submit();
