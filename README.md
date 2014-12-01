@@ -35,6 +35,9 @@ String jsapi = birtWear.getReport();
 // PLACE jsapi IN YOUR WEBVIEW
 ```
 
+Once you have the JSAPI in a String you can use it wherever you need your BIRT report.  For Android application you can use Webview.loadDataWithBaseUrl()
+
+
 Sample output
 =============================
 ```
