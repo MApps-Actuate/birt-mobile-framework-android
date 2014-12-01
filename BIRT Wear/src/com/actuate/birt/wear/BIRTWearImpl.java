@@ -164,7 +164,7 @@ public class BIRTWearImpl implements BIRTWear {
 
 	@Override
 	public void setJSAPILocation(String jsapiLocation) {
-		this.jsapilocation = jsapilocation;
+		this.jsapilocation = jsapiLocation;
 	}
 
 	@Override
