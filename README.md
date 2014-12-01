@@ -16,6 +16,7 @@ BIRTWear  birtWear  = new BIRTWearImpl("Administrator",                         
 									   "reqOps.setCustomParameters({'__masterpage': 'false'});", // Custom parameters (can be null)
 									   "Report Designs/Account Overview Table.rptdesign",        // Report name (full path)
 									   uiOptions);                                               // UI Options (can be null)
+String jsapi = birtWear.getReport();  // Processed JSAPI from BIRTWear, this can be used wherever you need a BIRT Report
 ```
 
 Or you can use the setters to create the same object
