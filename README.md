@@ -5,10 +5,9 @@ This is the Java-based framework to be used by Android mobile app developers to 
 
 How to
 =============================
+```
 BIRTWear  birtWear  = new BIRTWearImpl();
-
 UIOptions uiOptions = new UIOptionsImpl();
-		
 birtWear.setJSAPILocation("http://localhost:8700/jsapi");
 birtWear.setVolume("Default Volume");
 birtWear.setUsername("Administrator");
@@ -17,7 +16,6 @@ birtWear.setReportName("Report Designs/test.rptdesign");
 birtWear.setUIOptions(uiOptions);
 birtWear.setIportalLocation("http://localhost:8700/iportal");
 birtWear.setCustomParameters("reqOps.setCustomParameters({'__masterpage': 'false'});");
-		
 String jsapi = birtWear.getReport();
-		
 // PLACE jsapi IN YOUR WEBVIEW
+```
