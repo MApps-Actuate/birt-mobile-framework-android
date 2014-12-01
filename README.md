@@ -5,6 +5,21 @@ This is the Java-based framework to be used by Android mobile app developers to 
 
 How to
 =============================
+When creating a BIRTWear object you can do one of two things.  You can either pass all required parameters in the constructor
+```
+UIOptions uiOptions = new UIOptionsImpl();
+BIRTWear  birtWear  = new BIRTWearImpl("Administrator",                                          // Username
+                                       "",                                                       // Password
+                                       "Default Volume",                                         // Volume Name
+									   "http://localhost:8700/iportal/jsapi",                    // JSAPI Location
+									   "http://localhost:8700/iportal",                          // iPortal Location
+									   "reqOps.setCustomParameters({'__masterpage': 'false'});", // Custom parameters (can be null)
+									   "Report Designs/Account Overview Table.rptdesign",        // Report name (full path)
+									   uiOptions);                                               // UI Options (can be null)
+```
+
+Or you can use the setters to create the same object
+
 ```
 BIRTWear  birtWear  = new BIRTWearImpl();
 UIOptions uiOptions = new UIOptionsImpl();
