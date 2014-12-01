@@ -19,3 +19,84 @@ birtWear.setCustomParameters("reqOps.setCustomParameters({'__masterpage': 'false
 String jsapi = birtWear.getReport();
 // PLACE jsapi IN YOUR WEBVIEW
 ```
+
+Sample output
+=============================
+```
+<html>
+
+<head>
+    <meta name='viewport' content='initial-scale=1'>
+</head>
+
+<body style='margin:0; padding:0'>
+    <script type='text/javascript' language='JavaScript' src='http://localhost:8700/jsapi'></script>
+    <script type='text/javascript'>
+        actuate.load('viewer');
+        var reqOps = new actuate.RequestOptions();
+        reqOps.setVolume('Default Volume');
+        reqOps.setCustomParameters({
+            '__masterpage': 'false'
+        });
+        actuate.initialize('http://localhost:8700/iportal', reqOps == undefined ? null : reqOps, 'Administrator', '', myInit);
+
+        function myInit() {
+            viewer1 = new actuate.Viewer('container1');
+            viewer1.setReportName('Report Designs/test.rptdesign');
+            viewer1.setContentMargin(0);
+            var options = new actuate.viewer.UIOptions();
+            options.enableAdvancedSort(true);
+            options.enableAggregation(true);
+            options.enableCalculatedColumns(true);
+            options.enableChartProperty(true);
+            options.enableChartSubType(true);
+            options.enableCollapseExpand(true);
+            options.enableColumnEdit(true);
+            options.enableColumnResize(true);
+            options.enableContentMargin(true);
+            options.enableDataAnalyzer(true);
+            options.enableDataExtraction(true);
+            options.enableEditReport(true);
+            options.enableExportReport(true);
+            options.enableFilter(true);
+            options.enableFacebookComments(true);
+            options.enableFlashGadetType(true);
+            options.enableFormat(true);
+            options.enableGroupEdit(true);
+            options.enableHideShowItems(true);
+            options.enableHighlight(true);
+            options.enableHoverHighlight(true);
+            options.enableLaunchViewer(true);
+            options.enableLinkToThisPage(true);
+            options.enableMainMenu(true);
+            options.enableMoveColumn(true);
+            options.enablePageBreak(true);
+            options.enablePageNavigation(true);
+            options.enableParameterPage(true);
+            options.enablePrint(true);
+            options.enableReorderColumns(true);
+            options.enableRowResize(true);
+            options.enableSaveDesign(true);
+            options.enableSaveDocument(true);
+            options.enableShowToolTip(true);
+            options.enableSort(true);
+            options.enableSuppressDuplicate(true);
+            options.enableSwitchView(true);
+            options.enableTextEdit(true);
+            options.enableTOC(true);
+            options.enableToolBar(true);
+            options.enableToolbarContextMenu(true);
+            options.enableToolbarHelp(true);
+            options.enableTopBottomNFilter(true);
+            options.enableUndoRedo(true);
+            options.enableFeatureMap(true);
+
+            viewer1.setUIOptions(options);
+            viewer1.submit();
+        }
+    </script>
+    <div id='container1' style='border-width: 0px; border-style: solid;'></div>
+</body>
+
+</html>
+```
