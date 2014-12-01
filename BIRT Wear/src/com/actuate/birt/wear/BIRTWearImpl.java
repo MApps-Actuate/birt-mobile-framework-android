@@ -44,6 +44,36 @@ public class BIRTWearImpl implements BIRTWear {
 		this.jsapiChecksum = this.createHash(this.jsapi);
 	}
 	
+	public BIRTWearImpl(String username, String password, String volume, String jsapilocation, String iportallocation,
+						String customParameters, String reportname, UIOptions uiOptions) {
+		// Read the JSAPI code
+		this.jsapi = new JSAPI().getJSAPI();
+		
+		// Create the Checksum for our JSAPI
+		this.jsapiChecksum = this.createHash(this.jsapi);
+		
+		this.setUsername(username);
+		this.setPassword(password);
+		this.setVolume(volume);
+		this.setJSAPILocation(jsapilocation);
+		this.setIportalLocation(iportallocation);
+		
+		if(customParameters != null && !customParameters.equals("")){
+			this.setCustomParameters(customParameters);
+		}else{
+			this.setCustomParameters("");
+		}
+		
+		if(uiOptions == null) {
+			UIOptions newUIOptions = new UIOptionsImpl();
+			this.setUIOptions(newUIOptions);
+		}else{
+			this.setUIOptions(uiOptions);
+		}
+		
+		this.setReportName(reportname);
+	}
+	
 	// Creates an Checksum hash from a file and returns it
 	private long createHash(String contents) {
 		Checksum checksum = new CRC32();
